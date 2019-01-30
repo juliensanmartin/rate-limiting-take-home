@@ -16,10 +16,10 @@ it('delays calls the specified amount', () => {
     const delayed = delay(testFn, 100);
     delayed();
     expect(testFn).not.toBeCalled();
-    jest.advanceTimersByTime(50);
+    jest.advanceTimersByTime(50); //time is at 50
     expect(testFn).not.toBeCalled();
-    jest.advanceTimersByTime(60);
-    expect(testFn).toHaveBeenCalled();
+    jest.advanceTimersByTime(60); //time is at 110
+    expect(testFn).toHaveBeenCalled(); //execution should have happened at t 1000
 });
 
 it('will delay multiple calls', () => {
