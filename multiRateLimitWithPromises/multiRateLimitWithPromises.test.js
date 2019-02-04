@@ -53,10 +53,10 @@ it('rate limits and preserves values', async (done) => {
     expect(testFn).toHaveBeenCalledTimes(2);
 
     clock.tick(45); //time is at 100
-    expect(testFn).toHaveBeenCalledTimes(2);
+    expect(testFn).toHaveBeenCalledTimes(4);
 
     clock.tick(50); //time is at 150
-    expect(testFn).toHaveBeenCalledTimes(3); //result of 3rd call ('c') should be available at time 275
+    expect(testFn).toHaveBeenCalledTimes(4); //result of 3rd call ('c') should be available at time 275
 
     clock.tick(5); //time is at 155
     expect(testFn).toHaveBeenCalledTimes(4); //result of 4th call ('d') should be available at 160
@@ -65,7 +65,7 @@ it('rate limits and preserves values', async (done) => {
     expect(await testFn.mock.results[3].value).toBe('d');
 
     clock.tick(100); //time is 260
-    expect(testFn).toHaveBeenCalledTimes(5); //result of 5th call ('e') should be available at 267
+    expect(testFn).toHaveBeenCalledTimes(6); //result of 5th call ('e') should be available at 267
 
     clock.tick(7); //time is 267
     expect(await testFn.mock.results[4].value).toBe('e');
