@@ -5,14 +5,16 @@ export default function multiRateLimitWithPromises(fn, time, numInWindow) {
   const  executeFn = resolve => {
     if (executionQueue.length > 0) {
       const { fn, args } = executionQueue[0];
-      //const result = fn(...args);
       executionQueue.splice(0, 1);
       windowLeft = windowLeft - 1;
       setTimeout(() => {
-        windowLeft = numInWindow;
-        executeFn(resolve);
+        if (windowLeft > 0) executeFn(resolve);
       }, time);
-      resolve(fn(...args));
+      return fn(...args)
+      .then(response => {
+        windowLeft = windowLeft + 1;
+        resolve(response);
+      })
     }
   };
 
